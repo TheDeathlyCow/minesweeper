@@ -1,5 +1,5 @@
 
-export class Tile {
+export default class Tile {
 
     constructor(pos, hasMine, colour) {
         this.hasMine = hasMine;
@@ -23,6 +23,7 @@ export class Tile {
     }
 
     draw() {
+        console.log("drew tile!");
         let x = this.getX();
         let y = this.getY();
         this.ctx.fillStyle = this.colour;
