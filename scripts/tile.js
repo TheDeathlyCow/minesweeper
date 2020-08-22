@@ -1,5 +1,4 @@
 const body = document.getElementById('body');
-const size = 100
 
 class Tile {
     
@@ -21,9 +20,13 @@ class Tile {
         this.cvns.style.position = 'absolute';
 
         this.cvns.id = `tile_${posX},${posY}`;
-        this.cvns.height = size;
-        this.cvns.width = size;
-        
+        this.cvns.height = TILE_SIZE;
+        this.cvns.width = TILE_SIZE;
+
+        this.cvns.onclick = function(event) {
+            onClick(event.pageX, event.pageY);
+        };
+
         body.appendChild(this.cvns);
 
     }
@@ -59,6 +62,6 @@ class Tile {
     draw(colour=this.colour) {
         let ctx = this.cvns.getContext('2d');
         ctx.fillStyle = colour;
-        ctx.fillRect(0, 0, size, size);
+        ctx.fillRect(0, 0, TILE_SIZE, TILE_SIZE);
     }
 }

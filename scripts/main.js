@@ -1,5 +1,6 @@
 
 var TILES = [];
+const TILE_SIZE = 100;
 
 function draw(difficulty) {
     let dimensions = getDimensionsByDifficulty(difficulty)
@@ -7,12 +8,20 @@ function draw(difficulty) {
     for (let row = 0; row < dimensions['x']; row++) {
         row_tiles = []
         for (let col = 0; col < dimensions['y']; col++) {
-            let tile = new Tile(false, row * 100, col * 100);
+            let tile = new Tile(false, row * TILE_SIZE, col * TILE_SIZE);
             tile.draw();
+
             row_tiles.push(tile);
         }
         TILES.push(row_tiles);
     }
+}
+
+function onClick(x, y) {
+    let row = Math.floor(x / TILE_SIZE);
+    let col = Math.floor(y / TILE_SIZE);
+
+    TILES[row][col].draw('red');
 }
 
 /**
