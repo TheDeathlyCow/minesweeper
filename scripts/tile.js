@@ -1,27 +1,31 @@
-const body = document.getElementById('game_board');
+const body = document.getElementById('body');
 const size = 100
 
 class Tile {
     
     /**
      * Creates a new game tile.
-     * @param {*} pos An array of [x. y] coordinates.
      * @param {*} hasMine A boolean that says whether or not this tile has a mine.
-     * @param {*} colour A string of the format `rgb(${red}, ${green}, ${blue})` that determines the tile's colour.
+     * @param {*} colour A string of the format `rgb(${red}, ${green}, ${blue})` that determines the tile's colour. Default: rgb(68, 85, 90)
      */
-    constructor(hasMine, colour='rgb(68, 85, 90)', pos={x: 0, y: 0}) {
+    constructor(hasMine, posX, posY, colour='blue') {
         this.hasMine = hasMine;
-        this.pos = pos;
         this.colour = colour;
         this.isRevealed = false;
         this.isFlagged = false;
 
         this.cvns = document.createElement('canvas');
-        this.cvns.id = `tile_${this.getX()},${this.getY()}`
+
+        this.cvns.style.left = `${posX}px`;
+        this.cvns.style.top = `${posY}px`;
+        this.cvns.style.position = 'absolute';
+
+        this.cvns.id = `tile_${posX},${posY}`;
         this.cvns.height = size;
         this.cvns.width = size;
-        this.ctx = this.cvns.getContext('2d');
+        
         body.appendChild(this.cvns);
+
     }
 
     getSize() {
@@ -44,30 +48,17 @@ class Tile {
         return false;
     }
 
-    setPos(pos) {
-        this.pos = pos;
-    }
-
     setColour(colour) {
         this.colour = colour;
-    }
-
-    getX() {
-        return this.pos['x'];
-    }
-
-    getY() {
-        return this.pos['y'];
     }
 
     reveal() {
         this.isRevealed = true;
     }
 
-    draw() {
-        let x = this.getX();
-        let y = this.getY();
-        this.ctx.fillStyle = this.colour;
-        this.ctx.fillRect(x, y, x + size, y + size);
+    draw(colour=this.colour) {
+        let ctx = this.cvns.getContext('2d');
+        ctx.fillStyle = colour;
+        ctx.fillRect(0, 0, size, size);
     }
 }

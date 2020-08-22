@@ -1,21 +1,19 @@
 
+var TILES = [];
+
 function draw(difficulty) {
     let dimensions = getDimensionsByDifficulty(difficulty)
 
-    for (var row = 0; row < dimensions['x']; row++) {
-        for (var col = 0; col < dimensions['y']; col++) {
-            let r = Math.floor(Math.random() * 255);
-            let g = Math.floor(Math.random() * 255);
-            let b = Math.floor(Math.random() * 255);
-            
-            let tile = new Tile(false, `rgb(${r}, ${g}, ${b})`);
-            tile.setPos([row * tile.getSize(), col * tile.getSize()]);
+    for (let row = 0; row < dimensions['x']; row++) {
+        row_tiles = []
+        for (let col = 0; col < dimensions['y']; col++) {
+            let tile = new Tile(false, row * 100, col * 100);
             tile.draw();
+            row_tiles.push(tile);
         }
+        TILES.push(row_tiles);
     }
 }
-
-
 
 /**
  * Returns an array of int [x, y].
