@@ -1,21 +1,21 @@
-import Tile from './tile.js';
 
 function draw(difficulty) {
-    var canvas = document.getElementById('game_board');
+    let dimensions = getDimensionsByDifficulty(difficulty)
 
-    if (canvas.getContext) {
-        
-        let dimensions = getDimensionsByDifficulty(difficulty)
-
-        for (var row = 0; row < dimensions[0]; row++) {
-            for (var col = 0; col < dimensions[1]; col++) {
-                // console.log('draw tile');
-                let tile = new Tile([row*10, col*10], false, 'rgb(200, 0, 0)');
-                tile.draw();
-            }
+    for (var row = 0; row < dimensions['x']; row++) {
+        for (var col = 0; col < dimensions['y']; col++) {
+            let r = Math.floor(Math.random() * 255);
+            let g = Math.floor(Math.random() * 255);
+            let b = Math.floor(Math.random() * 255);
+            
+            let tile = new Tile(false, `rgb(${r}, ${g}, ${b})`);
+            tile.setPos([row * tile.getSize(), col * tile.getSize()]);
+            tile.draw();
         }
     }
 }
+
+
 
 /**
  * Returns an array of int [x, y].
@@ -24,13 +24,13 @@ function draw(difficulty) {
 function getDimensionsByDifficulty(difficulty) {
     switch (difficulty) {
         case 'easy':
-            return [10, 10];
+            return {x: 10, y: 10};
         case 'medium':
-            return [16, 16];
+            return {x: 16, y: 16};
         case 'hard':
-            return [40, 40];
+            return {x: 40, y: 40};
         default:
-            return [1, 1];
+            return {x: 1, y: 1};
     }
 }
 
