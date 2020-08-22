@@ -60,6 +60,7 @@ class Tile {
     }
 
     draw(colour=this.colour) {
+        this.setColour(colour);
         let ctx = this.cvns.getContext('2d');
         ctx.fillStyle = colour;
         ctx.fillRect(0, 0, TILE_SIZE, TILE_SIZE);

@@ -21,7 +21,14 @@ function onClick(x, y) {
     let row = Math.floor(x / TILE_SIZE);
     let col = Math.floor(y / TILE_SIZE);
 
-    TILES[row][col].draw('red');
+    let selectedTile = TILES[row][col];
+    if (selectedTile.colour == 'blue') {
+        TILES[row][col].draw('red');
+    }
+    else if (selectedTile.colour == 'red') {
+        TILES[row][col].draw('blue');
+    }
+    
 }
 
 /**
@@ -35,11 +42,11 @@ function getDimensionsByDifficulty(difficulty) {
         case 'medium':
             return {x: 16, y: 16};
         case 'hard':
-            return {x: 40, y: 40};
+            return {x: 35, y: 35};
         default:
             return {x: 1, y: 1};
     }
 }
 
-let difficulty = 'easy';
+let difficulty = 'hard';
 draw(difficulty);
