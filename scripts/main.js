@@ -39,11 +39,8 @@ function placeMines(dimensions, maxMines=10) {
             findNewPosition(row, col, dimensions);
         }
         else {
-            TILES[row][col].placeMine();
-            // TILES[row][col].hasMine = true;
-            // TILES[row][col].draw('green');
+            placeMineOnBoard(row, col);
         }
-         // temp: show it has a mine
     }
 }
 
@@ -55,7 +52,7 @@ function findNewPosition(row, col, dimensions) {
         for (let y = -1; !minePlaced && y <= 1; y++) {
             try {
                 if (!TILES[row + x][col + y].hasMine) {
-                    TILES[row + x][col + y].placeMine();
+                    placeMineOnBoard(row + x, col + y);
                     minePlaced = true;
                 }
             }
@@ -73,17 +70,20 @@ function findNewPosition(row, col, dimensions) {
     }
 }
 
-function placeMine(row, col) {
+function placeMineOnBoard(row, col) {
     TILES[row][col].placeMine();
 
     for (let dx = -1; dx <= 1; dx++) {
         for (let dy = -1; dy <= 1; dy++) {
             try {
                 if (!TILES[row + dx][col + dy].hasMine) {
+                    console.log('Increment count.');
                     TILES[row + dx][col + dy].count++;
+                } else {
+                    console.log('did not increment');
                 }
             }
-            catch(err) {}
+            catch(err) { console.log('Counting edge.'); }
         }
     }
 }
@@ -98,7 +98,7 @@ function getDimensionsByDifficulty(difficulty) {
     hardSize = 35,
     defaultSize = 1;
     
-    switch (difficulty) {
+    switch (difficulty.toLowerCase()) {
         case 'easy':
             return difficultyBoard(easySize);
         case 'medium':
@@ -116,5 +116,7 @@ function difficultyBoard(difficultySize) {
 }
 
 
-let difficulty = 'easy';
+let difficulty = 'hard';
 draw(difficulty);
+// countMines(difficulty);
+printBoard(TILES);
