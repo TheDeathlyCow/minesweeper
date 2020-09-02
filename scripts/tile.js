@@ -99,9 +99,10 @@ class Tile {
 }
 
 function revealTile(x, y) {
+    console.log("CLIIICK");
     let rect = GAME_BOARD.getBoundingClientRect();
-    let row = Math.floor((x + rect.left) / TILE_SIZE);
-    let col = Math.floor((y + rect.top) / TILE_SIZE);
+    let row = Math.floor((x) / TILE_SIZE);
+    let col = Math.floor((y) / TILE_SIZE);
 
     let selectedTile = TILES[row][col];
     if (selectedTile.colour === 'blue') {
