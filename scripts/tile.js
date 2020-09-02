@@ -1,4 +1,4 @@
-const body = document.getElementById('body');
+const GAME_BOARD = document.getElementById('gameBoard');
 
 class Tile {
     
@@ -33,7 +33,7 @@ class Tile {
             flagTile(event.pageX, event.pageY);
         };
 
-        body.appendChild(this.cvns);
+        GAME_BOARD.appendChild(this.cvns);
 
     }
 
@@ -47,7 +47,7 @@ class Tile {
             this.draw('red');
         }
         else {
-            this.isFlagged = true;
+            this.isFlagged = false;
             this.draw('blue');
         }
     }
@@ -63,17 +63,19 @@ class Tile {
         this.colour = colour;
     }
 
-    reveal() {  
-        this.isRevealed = true;
-        this.draw('white');
-        let ctx = this.cvns.getContext('2d');
-        ctx.font = '75pt Arial';
-        ctx.fillStyle = 'black';
+    reveal() { 
+        if (!this.isRevealed) {
+            this.isRevealed = true;
+            this.draw('white');
+            let ctx = this.cvns.getContext('2d');
+            ctx.font = '75pt Arial';
+            ctx.fillStyle = 'black';
 
-        let revealText = this.getRevealText();
+            let revealText = this.getRevealText();
 
-        ctx.fillText(revealText, TILE_SIZE / 4, TILE_SIZE * 0.85 );
-        console.log(revealText);   
+            ctx.fillText(revealText, TILE_SIZE / 4, TILE_SIZE * 0.85 );
+            console.log(revealText);   
+        }
     } 
 
     getRevealText() {
@@ -97,12 +99,40 @@ class Tile {
 }
 
 function revealTile(x, y) {
-    let row = Math.floor(x / TILE_SIZE);
-    let col = Math.floor(y / TILE_SIZE);
+    let rect = GAME_BOARD.getBoundingClientRect();
+    let row = Math.floor((x + rect.left) / TILE_SIZE);
+    let col = Math.floor((y + rect.top) / TILE_SIZE);
 
     let selectedTile = TILES[row][col];
     if (selectedTile.colour === 'blue') {
         TILES[row][col].reveal();
+        if (selectedTile.hasMine) {
+            
+            gameOver();
+        }
+        else if ( selectedTile.count == 0  ) {
+            revealAdjacentZeros(row, col);
+        }
+    }
+}
+
+function revealAdjacentZeros(row, col) {
+    if (TILES[row][col].count == 0) {
+        for (let dx = -1; dx <= 1; dx++) {
+            for (let dy = -1; dy <= 1; dy++) {
+                try {
+                    if (!TILES[row + dx][col + dy].isRevealed) {
+                        TILES[row + dx][col + dy].reveal();
+                        if (TILES[row + dx][col + dy].count === 0) {
+                            revealAdjacentZeros(row + dx, col + dy);
+                        } 
+                    }
+                }
+                catch(err) { 
+                    console.log(`Failed to reveal at ${row + dx}, ${col + dy}.`);
+                }
+            }
+        }
     }
 }
 

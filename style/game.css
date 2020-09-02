@@ -1,0 +1,48 @@
+
+#body {
+    left: 50%;
+    top: 50%;
+}
+
+#gameBoard {
+    position: relative;
+    left: 500px;
+    top: 200px;
+    background-color: yellow;
+    border-style: dotted;
+    border-color: cyan;
+}
+
+
+* {
+    margin: 0;
+}
+
+.wrapper {
+    margin: auto;
+}
+
+.setupDiv {
+    margin-bottom: 1em;
+}
+
+.sizeInput {
+    width: 3em;
+    margin-right: 1em;
+}
+
+#startButton {
+    width: 10em;
+    margin-left: 1em;
+}
+
+
+.snakeContainer {
+    padding-top: 3em;
+    text-align: center;
+}
+
+#snakeCanvas {
+    background-color: #333333;
+    border: 1px solid black;
+}

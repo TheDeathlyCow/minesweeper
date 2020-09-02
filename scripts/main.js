@@ -1,7 +1,7 @@
 
 var TILES = [];
-const TILE_SIZE = 100;
-const MINE_PROBABILITY = 0.1;
+const TILE_SIZE = document.getElementById("tileSizeInput").value;
+const MINE_PROBABILITY = 0.15;
 
 function draw(difficulty) {
     const dimensions = getDimensionsByDifficulty(difficulty)
@@ -20,7 +20,7 @@ function draw(difficulty) {
     placeMines(dimensions, maxMines);
 }
 
-function placeMines(dimensions, maxMines=10) {
+function placeMines(dimensions, maxMines = 10) {
     let numMines = 0;
     const width = dimensions['x'];
     const height = dimensions['y'];
@@ -56,7 +56,7 @@ function findNewPosition(row, col, dimensions) {
                     minePlaced = true;
                 }
             }
-            catch(err) {
+            catch (err) {
                 console.log("tried to place on edge");
             }
         }
@@ -72,7 +72,6 @@ function findNewPosition(row, col, dimensions) {
 
 function placeMineOnBoard(row, col) {
     TILES[row][col].placeMine();
-
     for (let dx = -1; dx <= 1; dx++) {
         for (let dy = -1; dy <= 1; dy++) {
             try {
@@ -83,7 +82,17 @@ function placeMineOnBoard(row, col) {
                     console.log('did not increment');
                 }
             }
-            catch(err) { console.log('Counting edge.'); }
+            catch (err) { console.log('Counting edge.'); }
+        }
+    }
+}
+
+function gameOver() {
+    for (let row = 0; row < TILES.length; row++) {
+        for (let col = 0; col < TILES[row].length; col++) {
+            if (TILES[row][col].hasMine) {
+                TILES[row][col].reveal();
+            }
         }
     }
 }
@@ -94,10 +103,10 @@ function placeMineOnBoard(row, col) {
  */
 function getDimensionsByDifficulty(difficulty) {
     let easySize = 10,
-    mediumSize = 16,
-    hardSize = 35,
-    defaultSize = 1;
-    
+        mediumSize = 16,
+        hardSize = 35,
+        defaultSize = 1;
+
     switch (difficulty.toLowerCase()) {
         case 'easy':
             return difficultyBoard(easySize);
@@ -112,11 +121,12 @@ function getDimensionsByDifficulty(difficulty) {
 
 function difficultyBoard(difficultySize) {
     // MAX_MINES = Math.floor(difficultySize * difficultySize * MINE_PROBABILITY);
-    return {x: difficultySize, y: difficultySize};
+    return { x: difficultySize, y: difficultySize };
 }
 
-
-let difficulty = 'easy';
-draw(difficulty);
-// countMines(difficulty);
-printBoard(TILES);
+function startGame() {
+    let difficulty = document.getElementById("difficultyInput").value;
+    draw(difficulty);
+    // countMines(difficulty);
+    // printBoard(TILES);
+}

@@ -3,16 +3,80 @@
     <head>
         <meta charset="utf-8"/>
         <title>Minesweeper</title>
+        <!-- what the fuck am i doing -->
         <style type="text/css">
             canvas { 
                 border: 1px solid black;
             }
         </style>
     </head>
-    <body id='body'>
-        <script src="scripts/tile.js"></script> 
-        <script src="scripts/debug.js"></script>
-        <script src="scripts/main.js"></script>
+    <body>
+        <div id="wrapper">
+            <div class="mineSweeperContainer">
+                <div class="setupDiv">
+                    <label for="TILE_SIZE">Tile Size:</label>
+                    <input id="tileSizeInput" class="sizeInput" value=100>
+                    <label for="difficulty">Difficulty (easy, medium, or hard):</label>
+                    <input id="difficultyInput" class="sizeInput" value="medium">
+                    </div>
+                    <!-- <label for="difficultyInput">Difficulty (easy, medium, or hard):</label>
+                    <input id="difficultyInput" class="sizeInput" value="medium"> -->
+                    <button id="startButton" onclick="startGame()">Start</button>
+                </div>
+                <div id="gameBoard">
+                    <script src='scripts/tile.js'></script>
+                    <script src='scripts/main.js'></script>
+                </div>
+            </div>
+        </div>
+        
     </body>
 </html>
 
+<style>
+
+#body {
+    left: 50%;
+    top: 50%;
+}
+
+#gameBoard {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+}
+
+
+* {
+    margin: 0;
+}
+
+.wrapper {
+    margin: auto;
+}
+
+.setupDiv {
+    margin-bottom: 1em;
+}
+
+.sizeInput {
+    width: 3em;
+    margin-right: 1em;
+}
+
+#startButton {
+    width: 10em;
+    margin-left: 1em;
+}
+
+
+.mineSweeperContainer {
+    padding-top: 3em;
+    text-align: center;
+}
+
+#snakeCanvas {
+    background-color: #333333;
+    border: 1px solid black;
+}
+</style>
