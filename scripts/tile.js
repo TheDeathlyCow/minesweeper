@@ -12,6 +12,7 @@ class Tile {
         this.colour = colour;
         this.isRevealed = false;
         this.isFlagged = false;
+        this.count = 0;
 
         this.cvns = document.createElement('canvas');
 
@@ -64,6 +65,11 @@ class Tile {
         let ctx = this.cvns.getContext('2d');
         ctx.fillStyle = colour;
         ctx.fillRect(0, 0, TILE_SIZE, TILE_SIZE);
+    }
+
+    placeMine() {
+        this.hasMine = true;
+        this.draw('green');
     }
 }
 
