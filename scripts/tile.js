@@ -4,8 +4,8 @@ class Tile {
     
     /**
      * Creates a new game tile.
-     * @param {*} hasMine A boolean that says whether or not this tile has a mine.
-     * @param {*} colour A string of the format `rgb(${red}, ${green}, ${blue})` that determines the tile's colour. Default: rgb(68, 85, 90)
+     * @param {boolean} hasMine A boolean that says whether or not this tile has a mine.
+     * @param {string} colour An RGB string that determines the tile's colour. Default: 'blue'
      */
     constructor(hasMine, posX, posY, colour='blue') {
         this.hasMine = hasMine;
@@ -24,7 +24,7 @@ class Tile {
         this.cvns.width = TILE_SIZE;
 
         this.cvns.onclick = function(event) {
-            onClick(event.pageX, event.pageY);
+            flagTile(event.pageX, event.pageY);
         };
 
         body.appendChild(this.cvns);
@@ -65,4 +65,21 @@ class Tile {
         ctx.fillStyle = colour;
         ctx.fillRect(0, 0, TILE_SIZE, TILE_SIZE);
     }
+}
+
+function flagTile(x, y) {
+    let row = Math.floor(x / TILE_SIZE);
+    let col = Math.floor(y / TILE_SIZE);
+
+    let selectedTile = TILES[row][col];
+    if (selectedTile.colour === 'blue') {
+        if (TILES[row][col].hasMine) {
+            console.log("flagged correctly");
+        }
+        TILES[row][col].draw('red');
+    }
+    else if (selectedTile.colour === 'red') {
+        TILES[row][col].draw('blue');
+    }
+    
 }
