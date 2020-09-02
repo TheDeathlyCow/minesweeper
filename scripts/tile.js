@@ -25,6 +25,11 @@ class Tile {
         this.cvns.width = TILE_SIZE;
 
         this.cvns.onclick = function(event) {
+            revealTile(event.pageX, event.pageY);
+        };
+
+        this.cvns.oncontextmenu = function(event) {
+            event.preventDefault();
             flagTile(event.pageX, event.pageY);
         };
 
@@ -37,11 +42,13 @@ class Tile {
     }
 
     flag() {
-        if (this.isFlagged) {
+        if (!this.isFlagged) {
             this.isFlagged = true;
+            this.draw('red');
         }
         else {
-            this.isFlagged = false;
+            this.isFlagged = true;
+            this.draw('blue');
         }
     }
 
@@ -56,8 +63,24 @@ class Tile {
         this.colour = colour;
     }
 
-    reveal() {
+    reveal() {  
         this.isRevealed = true;
+        this.draw('white');
+        let ctx = this.cvns.getContext('2d');
+        ctx.font = '75pt Arial';
+        ctx.fillStyle = 'black';
+
+        let revealText = this.getRevealText();
+
+        ctx.fillText(revealText, TILE_SIZE / 4, TILE_SIZE * 0.85 );
+        console.log(revealText);   
+    } 
+
+    getRevealText() {
+        if (this.hasMine) {
+            return '*';
+        }
+        return `${this.count}`;
     }
 
     draw(colour=this.colour) {
@@ -69,7 +92,17 @@ class Tile {
 
     placeMine() {
         this.hasMine = true;
-        this.draw('green');
+        // this.draw('green');
+    }
+}
+
+function revealTile(x, y) {
+    let row = Math.floor(x / TILE_SIZE);
+    let col = Math.floor(y / TILE_SIZE);
+
+    let selectedTile = TILES[row][col];
+    if (selectedTile.colour === 'blue') {
+        TILES[row][col].reveal();
     }
 }
 
@@ -79,10 +112,10 @@ function flagTile(x, y) {
 
     let selectedTile = TILES[row][col];
     if (selectedTile.colour === 'blue') {
-        if (TILES[row][col].hasMine) {
+        if (selectedTile.hasMine) {
             console.log("flagged correctly");
         }
-        TILES[row][col].draw('red');
+        TILES[row][col].flag();
     }
     else if (selectedTile.colour === 'red') {
         TILES[row][col].draw('blue');

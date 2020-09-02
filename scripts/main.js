@@ -116,7 +116,7 @@ function difficultyBoard(difficultySize) {
 }
 
 
-let difficulty = 'hard';
+let difficulty = 'easy';
 draw(difficulty);
 // countMines(difficulty);
 printBoard(TILES);
